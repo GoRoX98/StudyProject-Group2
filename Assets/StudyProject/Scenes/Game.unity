@@ -1341,6 +1341,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 894844222473601409, guid: 861f16d42aa0f6a47aabb834a2bc5a69, type: 3}
+      propertyPath: m_DefaultControlScheme
+      value: Mobile
+      objectReference: {fileID: 0}
+    - target: {fileID: 894844222473601409, guid: 861f16d42aa0f6a47aabb834a2bc5a69, type: 3}
+      propertyPath: m_NeverAutoSwitchControlSchemes
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1792360533664727090, guid: 861f16d42aa0f6a47aabb834a2bc5a69, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.595701

@@ -44,13 +44,31 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PrimaryContact"",
+                    ""type"": ""Button"",
+                    ""id"": ""4f2b93b9-b3f6-4bc0-9aa5-39b9781fc194"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveTouch"",
+                    ""type"": ""Value"",
+                    ""id"": ""3f0cd02c-128e-4cb7-aa08-108746ec76e5"",
+                    ""expectedControlType"": ""Touch"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": ""2D Vector"",
                     ""id"": ""a7a57e73-800e-458a-953a-c98f3e5f6e44"",
-                    ""path"": ""2DVector"",
+                    ""path"": ""2DVector(mode=1)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -112,6 +130,28 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f1609ba2-3728-4405-b84a-e1f844c0865a"",
+                    ""path"": ""<Touchscreen>/primaryTouch/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mobile"",
+                    ""action"": ""PrimaryContact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2e4c95a8-dbca-46b8-85d7-b64fd62fb074"",
+                    ""path"": ""<Touchscreen>/primaryTouch"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mobile"",
+                    ""action"": ""MoveTouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -150,6 +190,8 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
         m_Main = asset.FindActionMap("Main", throwIfNotFound: true);
         m_Main_Move = m_Main.FindAction("Move", throwIfNotFound: true);
         m_Main_Jump = m_Main.FindAction("Jump", throwIfNotFound: true);
+        m_Main_PrimaryContact = m_Main.FindAction("PrimaryContact", throwIfNotFound: true);
+        m_Main_MoveTouch = m_Main.FindAction("MoveTouch", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -213,12 +255,16 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
     private List<IMainActions> m_MainActionsCallbackInterfaces = new List<IMainActions>();
     private readonly InputAction m_Main_Move;
     private readonly InputAction m_Main_Jump;
+    private readonly InputAction m_Main_PrimaryContact;
+    private readonly InputAction m_Main_MoveTouch;
     public struct MainActions
     {
         private @MainInput m_Wrapper;
         public MainActions(@MainInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Main_Move;
         public InputAction @Jump => m_Wrapper.m_Main_Jump;
+        public InputAction @PrimaryContact => m_Wrapper.m_Main_PrimaryContact;
+        public InputAction @MoveTouch => m_Wrapper.m_Main_MoveTouch;
         public InputActionMap Get() { return m_Wrapper.m_Main; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -234,6 +280,12 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @PrimaryContact.started += instance.OnPrimaryContact;
+            @PrimaryContact.performed += instance.OnPrimaryContact;
+            @PrimaryContact.canceled += instance.OnPrimaryContact;
+            @MoveTouch.started += instance.OnMoveTouch;
+            @MoveTouch.performed += instance.OnMoveTouch;
+            @MoveTouch.canceled += instance.OnMoveTouch;
         }
 
         private void UnregisterCallbacks(IMainActions instance)
@@ -244,6 +296,12 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @PrimaryContact.started -= instance.OnPrimaryContact;
+            @PrimaryContact.performed -= instance.OnPrimaryContact;
+            @PrimaryContact.canceled -= instance.OnPrimaryContact;
+            @MoveTouch.started -= instance.OnMoveTouch;
+            @MoveTouch.performed -= instance.OnMoveTouch;
+            @MoveTouch.canceled -= instance.OnMoveTouch;
         }
 
         public void RemoveCallbacks(IMainActions instance)
@@ -283,5 +341,7 @@ public partial class @MainInput: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnPrimaryContact(InputAction.CallbackContext context);
+        void OnMoveTouch(InputAction.CallbackContext context);
     }
 }
